@@ -51,6 +51,8 @@ Variables in ``defaults/main.yml``:
 +-----------------------------------------+---------+---------------------------------------------+
 |                Name                     |  Type   |                Description                  |
 +=========================================+=========+=============================================+
+| ``docker_enable``                       | boolean | Indicates whether the role is enabled.      |
++-----------------------------------------+---------+---------------------------------------------+
 | ``docker_storage_driver``               | string  | Storage driver to be used with Docker. It   |
 |                                         |         | can be one of the following:                |
 |                                         |         |                                             |
@@ -149,5 +151,3 @@ Author Information
 ------------------
 
 Tadej Janež
-
-

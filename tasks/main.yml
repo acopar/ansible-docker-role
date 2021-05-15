@@ -1,4 +1,7 @@
 ---
-- import_tasks: sanity_checks.yml
+- block:
+    - import_tasks: sanity_checks.yml
 
-- import_tasks: install.yml
+    - import_tasks: install.yml
+
+  when: docker_enable
