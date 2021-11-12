@@ -1,10 +1,18 @@
 ---
+- name: Add repository for docker-ce
+  yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - x86_64
+    baseurl: https://download.docker.com/linux/centos/8/x86_64/stable
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+
 - name: Install Docker and related packages
   package:
     name:
-      - docker
-      # NOTE: docker-py is required by docker_{login,image} Ansible modules.
-      - python-docker-py
+      - docker-ce-3:19.03.13-3.el8
+      - python3-docker
 
 - name: Configure Docker storage
   template:
@@ -27,19 +35,20 @@
       the role again.
   when: docker_storage_setup_res.changed and docker_storage_dir_res.stdout != ""
 
-- name: Run Docker storage setup and ensure its prerequisites are met
-  block:
-    - name: Stop Docker service
-      service:
-        name: docker
-        state: stopped
+#- name: Run Docker storage setup and ensure its prerequisites are met
+#  block:
+#    - name: Stop Docker service
+#     service:
+#        name: docker
+#        state: stopped
 
-    - name: Run Docker storage setup
-      service:
-        name: docker-storage-setup
-        state: started
+    # overlay2 is supported, devicemapper is not needed any more
+    #- name: Run Docker storage setup
+    #  service:
+    #    name: docker-storage-setup
+    #    state: started
 
-  when: docker_storage_setup_res.changed or docker_storage_dir_res.stdout == ""
+  #when: docker_storage_setup_res.changed or docker_storage_dir_res.stdout == ""
 
 - name: Enable and start Docker service
   service:
